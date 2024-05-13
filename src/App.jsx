@@ -1,11 +1,21 @@
-import { useState, useReducer } from 'react'
+import { useState, useReducer } from 'react';
+import "./App.css";
+import Todo from './Todo';
+
 import './App.css'
 // useReduser用來處理 state 邏輯 有兩個參數: state(自訂名稱:todos) dispatch傳進來的參數:action
-const reduser = (todos, action) => { // reduser用來改變state(這邊是todos)  透過action
-  // 參數1 todos: [], // 參數2 action: 透過dispatch傳進去的Obj {type: 'ADD', payload: {…}}  其中payload: {todoContent: 'Hello World'} action.payload.todoContent= 'Hello World' // 根據第二個action做一些動作
+const reduser = (todos, action) => { // reduser用來改變state(這邊是todos)  // 根據第二個action做一些改變/動作
+  console.log(todos);// 參數1 todos: [], // 參數2 action: 透過dispatch傳進去的Obj {type: 'ADD', payload: {…}}  其中payload: {todoContent: 'Hello World'} action.payload.todoContent= 'Hello World' 
+  switch(action.type){
+    case "ADD":
+      return [
+      ...todos,   // ...todos把前一個todos保留
+      {todoContent:action.payload.todoContent, complete: false} // 把新的todos加進去第一個todoContent是屬性名稱 , complete一開始為false
+    ]
+  }
 }
 function App() {
-  const [todos, dispatch] = useReducer(reduser, [])  // [參數1 state: todos, 參數2 dispatch: dispatch (用來觸發 reduser 的 func) ] // = useReducer(dispatch觸發的func: reduser, todos一開始為一個空的array: [])
+  const [todos, dispatch] = useReducer(reduser, []);  // [參數1 state: todos, 參數2 dispatch: dispatch (用來觸發 reduser 的 func) ] // = useReducer(dispatch觸發的func: reduser, todos一開始為一個空的array: [])
   const [todoContent, setTodoContent] = useState("");
   const handleSubmit = (e) =>{
     e.preventDefault(); // 防止表單被送出時網頁refresh    
@@ -20,8 +30,10 @@ function App() {
         onChange={(e) => { setTodoContent(e.target.value) }}
         placeholder="Type in something..."
         />
-      </form>
-      {/* todos為一arr */} {/* {todos.map( (todo)=>(<Todo todo={todo} dispatch={dispatch}/>))} */}
+      </form>      
+      {todos.map((todo)=>(
+        <Todo todo={ todo } dispatch={ dispatch }/>
+      ))}      
     </div>
   )
 }
