@@ -5,15 +5,27 @@ import Todo from './Todo';
 import './App.css'
 // useReduser用來處理 state 邏輯 有兩個參數: state(自訂名稱:todos) dispatch傳進來的參數:action
 const reduser = (todos, action) => { // reduser用來改變state(這邊是todos)  // 根據第二個action做一些改變/動作
-  console.log(action);// 參數1 todos: [], // 參數2 action: 透過dispatch傳進去的Obj {type: 'ADD', payload: {…}}  其中payload: {todoContent: 'Hello World'} action.payload.todoContent= 'Hello World' 
+  // 參數1 todos: [], // 參數2 action: 透過dispatch傳進去的Obj {type: 'ADD', payload: {…}}  其中payload: {todoContent: 'Hello World'} action.payload.todoContent= 'Hello World' 
   const { todoContent, id } = action.payload; // action.payload.todoContent解構
+  
   switch(action.type){
     case "ADD":
       return [
       ...todos,   // ...todos把前一個todos保留
       // {todoContent:action.payload.todoContent, complete: false} // 把新的todos加進去第一個todoContent是屬性名稱 , complete一開始為false
       newTodo(todoContent) // 取代上一行code
-    ]
+    ];
+    case "TOGGLE":
+      return todos.map((todo)=>{
+        if (todo.id === id){
+          return {...todo, complete: !todo.complete}; // 直接把complete做一個反向 true變成false false變成true
+        }
+        return todo;
+      });
+    case "DELETE":
+      return todos.filter((todo) => todo.id !== id);
+    default:
+      return todos;
   }
 }
 // 因為可以 return 很多筆資料 {todoContent: todoContent, complete: false, ...}
@@ -42,7 +54,7 @@ function App() {
       </form>     
       {/* todos為一arr  有'完成'、'刪除'等type 根據type改變state 透過dispatch傳入 改變todos*/}  
       {todos.map((todo)=>(
-        <Todo todo={ todo } dispatch={ dispatch }/>
+        <Todo todo={ todo } dispatch={ dispatch } id={ todo.id }/>
       ))}      
     </div>
   )
