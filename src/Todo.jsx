@@ -1,4 +1,5 @@
 ﻿import React from 'react'
+import Action from './Action'
 
 const Todo = ({todo, dispatch, id}) => {
     // dispatch傳入type 根據type改變state(這邊是todo)資料 讓complete 顯示為 刪除 或 完成
@@ -13,13 +14,13 @@ const Todo = ({todo, dispatch, id}) => {
         </span>
         <button 
         className="toggle" 
-        onClick={()=>{dispatch({ type:"TOGGLE", payload:{ id:todo.id } })}} // payload 告訴他要根據id修改狀態state payload:{資料的屬性: 資料}
+        onClick={()=>{dispatch({ type: Action.TOGGLE, payload:{ id:todo.id } })}} // payload 告訴他要根據id修改狀態state payload:{資料的屬性: 資料}
         >
         {todo.complete ? "Cancel":"Complete"}
         </button>
         <button 
         className="delete" 
-        onClick={ ()=>{dispatch({ type:"DELETE", payload:{ id:todo.id } })}}
+        onClick={ ()=>{dispatch({ type: Action.DELETE, payload:{ id:todo.id } })}}
         >
         Delete
         </button>
