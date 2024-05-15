@@ -1,31 +1,23 @@
-﻿import React from 'react'
-import Action from './Action'
+﻿﻿import { useContext } from 'react'
+import { TodoContext } from './hooks/TodoContext'
 
-const Todo = ({todo, dispatch, id}) => {
-    // dispatch傳入type 根據type改變state(這邊是todo)資料 讓complete 顯示為 刪除 或 完成
-    // todo= {id: 65945, todoContent: 'todo', complete: false}
+const Todo = () => {
+  const { todos, toggleTodo, deleteTodo } = useContext(TodoContext)
   return (
-    <div className="todo">
-        <span 
-        style={{ textDecoration: todo.complete ? "line-through": null}}
-        key={{id:todo.id}}
-        >
-        {todo.todoContent }
-        </span>
-        <button 
-        className="toggle" 
-        onClick={()=>{dispatch({ type: Action.TOGGLE, payload:{ id:todo.id } })}} // payload 告訴他要根據id修改狀態state payload:{資料的屬性: 資料}
-        >
+    <>
+    {todos.map((todo)=>(
+      <div className="todo" key={todo.id}>
+        <span style={{textDecoration: todo.complete? "line-through": null}}>
+        TodoList: {todo.todoContent}
+        </span>        
+        <button className="toggle" onClick={()=>toggleTodo(todo.id)}>
         {todo.complete ? "Cancel":"Complete"}
         </button>
-        <button 
-        className="delete" 
-        onClick={ ()=>{dispatch({ type: Action.DELETE, payload:{ id:todo.id } })}}
-        >
-        Delete
-        </button>
-    </div>
+        <button className="delete" onClick={()=>deleteTodo(todo.id)}>Delete</button>
+      </div>
+    ))}
+    </>
   )
 }
 
-export default Todo
+export default Todo;
