@@ -1,8 +1,7 @@
-﻿﻿import { useContext } from 'react'
-import { TodoContext } from './hooks/TodoContext'
+﻿﻿import {  useTodo } from './hooks/TodoContext'
 
 const Todo = () => {
-  const { todos, toggleTodo, deleteTodo } = useContext(TodoContext)
+  const { todos, toggleTodo, deleteTodo } = useTodo();
   return (
     <>
     {todos.map((todo)=>(

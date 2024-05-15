@@ -1,8 +1,9 @@
-﻿import{ useState, useContext } from 'react'
-import { TodoContext } from './hooks/TodoContext';
+﻿import{ useState } from 'react'
+import { useTodo } from './hooks/TodoContext';
 
 const TodoForm = () => {
-    const {addTodo} = useContext(TodoContext); // {addTodo}是 value={todos: state.todos, addTodo,...}
+    // 簡化useContext(TodoContext) by useTodo
+    const {addTodo} = useTodo(); // {addTodo}是 value={todos: state.todos, addTodo,...}
     const [todoContent, setTodoContent] = useState("");
     const handleSubmit = (e) =>{
     e.preventDefault(); // 防止表單被送出時網頁refresh 
