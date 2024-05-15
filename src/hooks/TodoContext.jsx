@@ -1,5 +1,5 @@
 ﻿// 新增、刪除的邏輯都在這裡
-import { useReducer, createContext } from "react";
+import { useReducer, createContext, useContext } from "react";
 import TodoReducer, { ACTIONS, initState } from "./TodoReducer";
 
 export const TodoContext = createContext(initState);
@@ -55,3 +55,11 @@ const todoObj =(todoContent)=>{
     todoContent, 
     complete: false}
    }
+// 在<Todo> <TodoForm> 把 import useContext TodoContext 省略掉 建立一個hook: useTodo
+export const useTodo = ()=>{
+    const context = useContext(TodoContext);
+    if(context === undefined){
+        console.log("Error");
+    }
+    return context;
+};
